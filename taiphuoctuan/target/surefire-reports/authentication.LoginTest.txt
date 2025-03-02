@@ -1,0 +1,11 @@
+-------------------------------------------------------------------------------
+Test set: authentication.LoginTest
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 1, Errors: 0, Skipped: 2, Time elapsed: 3.64 sec <<< FAILURE!
+setup(authentication.LoginTest)  Time elapsed: 3.47 sec  <<< FAILURE!
+java.lang.ExceptionInInitializerError
+	at authentication.LoginTest.setup(LoginTest.java:19)
+Caused by: java.lang.RuntimeException: Không thể tải file config.properties
+	at config.ConfigReader.<clinit>(ConfigReader.java:19)
+	... 32 more
+
