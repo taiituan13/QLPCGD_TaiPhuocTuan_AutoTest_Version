@@ -20,6 +20,9 @@ public class DriverManager {
                 options.addArguments("--ignore-certificate-errors");
                 options.addArguments("--allow-insecure-localhost");
                 options.addArguments("--disable-web-security");
+                options.addArguments("--disable-background-timer-throttling");
+                options.addArguments("--disable-renderer-backgrounding");
+                options.addArguments("--disable-backgrounding-occluded-windows");
 
                 driver = new ChromeDriver(options);
             } else if (browser.equalsIgnoreCase("firefox")) {

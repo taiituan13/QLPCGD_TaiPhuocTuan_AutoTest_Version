@@ -1,3 +1,5 @@
+import java.sql.Time;
+
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -53,15 +55,18 @@ public class TimeTableManagement {
     }
 
     @Test
-    public void assignLecturer(){
+    public void assignLecturer() throws InterruptedException{
         loginTest();
+        timeTablePage.TimeTableTabClick();
         timeTablePage.theoryAssign();
+        Thread.sleep(500);
+        timeTablePage.assignLecturer();
     }
 
     
 
     @AfterClass
     public void tearDown() {
-        DriverManager.closeDriver();
+        // DriverManager.closeDriver();
     }
 }
