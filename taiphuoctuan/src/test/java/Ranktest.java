@@ -31,9 +31,6 @@ public class Ranktest {
         loginPage = new LoginPage(driver);
         microsoftLoginPage = new MicrosoftLoginPage(driver);
         rankPage = new Rankpage(driver);
-
-
-
     }
 
     @Test
@@ -45,7 +42,7 @@ public class Ranktest {
         if (!currentUrl.contains("/Phancong02/Account/Login")) {
             System.out.println("Login with cookies test passed. Current URL: " + currentUrl);
         } else {
-            loginPage.openIdConnect();
+            loginPage.clickOpenIdConnect();
             microsoftLoginPage.login(username, password);
 
             currentUrl = driver.getCurrentUrl();

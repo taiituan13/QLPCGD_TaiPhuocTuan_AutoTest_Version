@@ -33,8 +33,9 @@ public class Rankpage {
         WebElement remuneration = WaitUtils.waitForElement(driver,
                 By.linkText("Thù lao"), 5);
         remuneration.click();
-        remuneration.click();
 
+        WebElement academicDegree = WaitUtils.waitForElement(driver, By.xpath("/html/body/div[2]/div[1]/div[2]/ul/li[6]/ul/li[1]/a"), 5);
+        academicDegree.click();
         
         
         // remuneration.click();`

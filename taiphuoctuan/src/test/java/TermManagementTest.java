@@ -41,6 +41,7 @@ public class TermManagementTest {
             System.out.println("Login with cookies test passed. Current URL: " + currentUrl);
         } else {
             loginPage.openIdConnect();
+            System.out.println(username);
             microsoftLoginPage.login(username, password);
 
             currentUrl = driver.getCurrentUrl();

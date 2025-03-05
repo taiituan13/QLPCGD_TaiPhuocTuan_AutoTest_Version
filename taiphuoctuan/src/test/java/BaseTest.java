@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 import config.ConfigReader;
 import config.DriverManager;
-import pages.TermPage;
+// import pages.TermPage;
 import pages.MicrosoftLoginPage;
 import pages.HomePage;
 import pages.LoginPage;
