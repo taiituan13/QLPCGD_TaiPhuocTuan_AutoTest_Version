@@ -58,15 +58,17 @@ public class Ranktest {
     public void assignLecturer() throws InterruptedException {
         loginTest();
         rankPage.remunerationClick();
-        rankPage.addAcaddemicTitles("343248333333","thangtainguthangtaingu");
+        rankPage.addAcaddemicTitles("34324833332122","thangtainguthangtaingu");
 
         if (rankPage.isToastMessageDisplayed()) {
             System.out.println("Thông báo hiển thị: " + rankPage.getToastMessageText());
         } else {
             System.out.println("Thông báo không hiển thị.");
         }
-
+        rankPage.search("0-0-0"); 
+        Thread.sleep(5000);
     }
+    
 
     @AfterClass
     public void tearDown() {

@@ -79,22 +79,21 @@ public class AcademicDegreePage {
             return "Không tìm thấy thông báo!";
         }
     }
+    public void search(String searchText) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    
+        // Chờ cho thanh tìm kiếm hiển thị
+        WebElement searchInput = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("/html/body/div[2]/div[2]/div[3]/div/section/div/div/div/div[2]/div/div/div[1]/div[2]/div/div[1]/div/label/input")));
+    
+        // Nhập nội dung tìm kiếm
+        searchInput.sendKeys(searchText);
+        
+    }
 
-    // public void correctionPage() {
-    // WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-    // WebElement xoa = WaitUtils.waitForElement(driver,
-    // By.xpath("/html/body/div[2]/div[2]/div[3]/div/section/div/div/div/div[2]/div/div/table/tbody/tr[1]/td[5]/a[1]"),
-    // 5);
-    // xoa.click();
 
-    // // WebElement xoa = wait.until(ExpectedConditions.elementToBeClickable(
-    // //
-    // By.xpath("/html/body/div[2]/div[2]/div[3]/div/section/div/div/div/div[2]/div/div/table/tbody/tr[1]/td[5]/a[1]")
-    // // ));
-    // // xoa.click();
 
-    // }
-
+    
 }
 
 // WebElement adAcaddemicTitles = WaitUtils.waitForElement(driver,
