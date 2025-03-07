@@ -31,7 +31,7 @@ public class AcademicDegreeTest {
         academicDegreeRank = new AcademicDegreePage(driver);
     }
 
-    @Test
+    @Test(priority = 1)
     public void loginTest() {
         homePage.loadCookies();
         driver.navigate().refresh();
@@ -52,7 +52,7 @@ public class AcademicDegreeTest {
         }
     }
 
-    @Test
+    @Test(priority = 2)
     public void testCreateAcademicDegreeRank() {
         loginTest();
         academicDegreeRank.navigateToAcademicDegreeRank();
@@ -67,12 +67,12 @@ public class AcademicDegreeTest {
         }
     }
 
-    @Test
+    @Test(priority = 3)
     public void testUpdateAcademicTitle() {
         loginTest();
 
         academicDegreeRank.navigateToAcademicDegreeRank();
-        academicDegreeRank.searchAcademicTitle("0012");
+        academicDegreeRank.searchAcademicTitle("00122");
         academicDegreeRank.clickUpdateAcademicTitleButton();
         academicDegreeRank.updateAcademicTitleName("CSfdDT");
         academicDegreeRank.clickSaveButton();
@@ -84,11 +84,11 @@ public class AcademicDegreeTest {
         }
     }
 
-    @Test
+    @Test(priority = 4)
     public void testDeleteAcademicTitle() {
         loginTest();
         academicDegreeRank.navigateToAcademicTitle();
-        academicDegreeRank.searchAcademicTitle("0012");
+        academicDegreeRank.searchAcademicTitle("00122");
         academicDegreeRank.clickDeleteAcademicTitleButton();
         academicDegreeRank.confirmDelete();
 
