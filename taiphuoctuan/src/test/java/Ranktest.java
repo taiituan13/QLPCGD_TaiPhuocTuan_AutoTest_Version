@@ -58,7 +58,9 @@ public class Ranktest {
     public void assignLecturer() throws InterruptedException{
         loginTest();
         rankPage.remunerationClick();
-
+        Thread.sleep(500);
+        // rankPage.addAcaddemicTitles();
+        
 
  }
 
