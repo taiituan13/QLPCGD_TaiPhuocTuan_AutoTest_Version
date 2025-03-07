@@ -17,11 +17,11 @@ import java.lang.Thread;
 
 import utils.WaitUtils;
 
-public class Rankpage {
+public class AcademicDegreePage {
 
     private WebDriver driver;
 
-    public Rankpage(WebDriver driver) {
+    public AcademicDegreePage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }

@@ -9,14 +9,14 @@ import config.DriverManager;
 import pages.HomePage;
 import pages.LoginPage;
 import pages.MicrosoftLoginPage;
-import pages.Rankpage;
+import pages.AcademicDegreePage;
 // import pages.Ranktest;
 
 public class Ranktest {
     private WebDriver driver;
     private HomePage homePage;
     private LoginPage loginPage;
-    private Rankpage rankPage;
+    private AcademicDegreePage rankPage;
 
     private MicrosoftLoginPage microsoftLoginPage;
     String username = ConfigReader.getProperty("username");
@@ -30,7 +30,7 @@ public class Ranktest {
         homePage = new HomePage(driver);
         loginPage = new LoginPage(driver);
         microsoftLoginPage = new MicrosoftLoginPage(driver);
-        rankPage = new Rankpage(driver);
+        rankPage = new AcademicDegreePage(driver);
     }
 
     @Test
