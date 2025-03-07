@@ -37,6 +37,8 @@ public class TimeTablePage {
 
     }
     public void assignLecturer() {
+
+        
         WebElement lecturerselect = WaitUtils.waitForElement(driver,
                 By.xpath("/html/body/div[3]/div[2]/div/div/span[1]/span[1]"), 15);
                 lecturerselect.click();

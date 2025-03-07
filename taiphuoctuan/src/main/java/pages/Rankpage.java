@@ -26,19 +26,44 @@ public class Rankpage {
     public void remunerationClick() {
         Wait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-        // WebElement RemunerationMenu =
-        // wait.until(ExpectedConditions.elementToBeClickable(By.linkText("Thù lao")));
-        // RemunerationMenu.click();
-
         WebElement remuneration = WaitUtils.waitForElement(driver,
                 By.linkText("Thù lao"), 5);
         remuneration.click();
 
-        WebElement academicDegree = WaitUtils.waitForElement(driver, By.xpath("/html/body/div[2]/div[1]/div[2]/ul/li[6]/ul/li[1]/a"), 5);
+        WebElement academicDegree = WaitUtils.waitForElement(driver,
+                By.xpath("/html/body/div[2]/div[1]/div[2]/ul/li[6]/ul/li[1]/a"), 5);
         academicDegree.click();
-        
-        
-        // remuneration.click();`
     }
 
+    public void addAcaddemicTitles() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement button = wait.until(ExpectedConditions.elementToBeClickable(
+            By.xpath("/html/body/div[2]/div[2]/div[3]/div/section/div/div/div/div[2]/div/div/div[1]/div[2]/div/div[2]/button")
+        ));
+        button.click();
+        
+
+    // }
+    // public void correctionPage() {
+    //     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    //     WebElement xoa = WaitUtils.waitForElement(driver,
+    //             By.xpath("/html/body/div[2]/div[2]/div[3]/div/section/div/div/div/div[2]/div/div/table/tbody/tr[1]/td[5]/a[1]"), 5);
+    //     xoa.click();
+
+    //     // WebElement xoa = wait.until(ExpectedConditions.elementToBeClickable(
+    //     //     By.xpath("/html/body/div[2]/div[2]/div[3]/div/section/div/div/div/div[2]/div/div/table/tbody/tr[1]/td[5]/a[1]")
+    //     // ));
+    //     // xoa.click();
+        
+
+    // }
+
 }
+ }
+
+// WebElement adAcaddemicTitles = WaitUtils.waitForElement(driver,
+// By.xpath("/html/body/div[2]/div[2]/div[3]/div/section/div/div/div/div[2]/div/div/div[1]/div[2]/div/div[2]/button"),
+// 5);
+// addAcademicTitles.click();
+
+// remuneration.click();`
