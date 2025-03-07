@@ -35,7 +35,7 @@ public class Ranktest {
 
     @Test
     public void loginTest() {
-        homePage.loadCookies(); 
+        homePage.loadCookies();
         driver.navigate().refresh();
 
         String currentUrl = driver.getCurrentUrl();
@@ -55,13 +55,22 @@ public class Ranktest {
     }
 
     @Test
-    public void assignLecturer() throws InterruptedException{
+    public void assignLecturer() throws InterruptedException {
         loginTest();
         rankPage.remunerationClick();
-        Thread.sleep(500);
-        // rankPage.addAcaddemicTitles();
-        
+        rankPage.addAcaddemicTitles("343248333333","thangtainguthangtaingu");
 
- }
+        if (rankPage.isToastMessageDisplayed()) {
+            System.out.println("Thông báo hiển thị: " + rankPage.getToastMessageText());
+        } else {
+            System.out.println("Thông báo không hiển thị.");
+        }
+
+    }
+
+    @AfterClass
+    public void tearDown() {
+        // DriverManager.closeDriver();
+    }
 
 }
