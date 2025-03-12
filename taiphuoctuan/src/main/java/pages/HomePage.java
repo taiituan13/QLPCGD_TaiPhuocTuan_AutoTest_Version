@@ -48,7 +48,7 @@ public class HomePage {
         Set<Cookie> cookies = driver.manage().getCookies();
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(cookieFile))) {
             for (Cookie cookie : cookies) {
-                writer.write(cookie.getName() + ";" + cookie.getValue() + ";" + cookie.getDomain() + ";"
+                writer.write(cookie.getName() + "=" + cookie.getValue() + ";" + cookie.getDomain() + ";"
                         + cookie.getPath() + ";" + cookie.getExpiry() + ";" + cookie.isSecure());
                 writer.newLine();
             }
@@ -83,4 +83,5 @@ public class HomePage {
         }
         return false;
     }
+    
 }

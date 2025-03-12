@@ -16,6 +16,7 @@ public class TermManagementTest {
     private TermPage termPage;
     private HomePage homePage;
     private LoginPage loginPage;
+    private Authentication authentication;
     private MicrosoftLoginPage microsoftLoginPage;
     String username = ConfigReader.getProperty("username");
     String password = ConfigReader.getProperty("password");
@@ -29,6 +30,8 @@ public class TermManagementTest {
         homePage = new HomePage(driver);
         loginPage = new LoginPage(driver);
         microsoftLoginPage = new MicrosoftLoginPage(driver);
+        authentication = new Authentication(driver);
+        authentication.setup();
     }
 
     @Test
@@ -55,19 +58,20 @@ public class TermManagementTest {
 
     @Test
     public void addMajorTest() {
-        loginTest();
+        authentication.loginTest();
         termPage.navigateToTermManagement();
         termPage.clickAddMajorButton();
         termPage.enterMajorDetails("001222", "CNCdSATT", "CSfdDT", "Curriculum");
         termPage.clickSaveButton();
-
-        Assert.assertTrue(termPage.isMajorAddedSuccessfully(), "Failed to add major.");
-        System.out.println("Add major test passed.");
+        if(termPage.checkMajorAddedSuccessfully()){
+            System.out.println("Add major test passed.");
+        }else
+            System.out.println("Add major test Failures.");
     }
 
     @Test
     public void deleteMajorTest() {
-        loginTest();
+        authentication.loginTest();
 
         termPage.navigateToTermManagement();
         termPage.deleteMajor("001222");

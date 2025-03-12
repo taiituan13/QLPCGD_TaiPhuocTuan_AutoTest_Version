@@ -19,6 +19,10 @@ public class Authentication {
     String username = ConfigReader.getProperty("username");
     String password = ConfigReader.getProperty("password");
 
+    public Authentication(WebDriver driver) {
+        this.driver = driver;
+    }
+
     @BeforeClass
     public void setup() {
         driver = DriverManager.getDriver();

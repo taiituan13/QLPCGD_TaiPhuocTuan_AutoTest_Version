@@ -11,7 +11,7 @@ import pages.HomePage;
 import pages.LoginPage;
 import pages.MicrosoftLoginPage;
 
-public class AcademicDegreeTest {
+public class AcademicDegreeManagementTest {
     private WebDriver driver;
     private HomePage homePage;
     private LoginPage loginPage;
