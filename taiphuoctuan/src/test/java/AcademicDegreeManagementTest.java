@@ -55,47 +55,50 @@ public class AcademicDegreeManagementTest {
     @Test(priority = 2)
     public void testCreateAcademicDegreeRank() {
         loginTest();
+        academicDegreeRank.navigateToAcademicDegreeRankTab();
         academicDegreeRank.navigateToAcademicDegreeRank();
         academicDegreeRank.clickCreateAcademicDegreeRank();
         academicDegreeRank.enterAcademicDegreeRankDetails("00122", "CNCdSATT");
         academicDegreeRank.clickSaveButton();
 
         if (academicDegreeRank.isSuccessPopupDisplayed()) {
-            System.out.println("Thông báo hiển thị: " + academicDegreeRank.getToastMessageText());
+            System.out.println("Thêm thành công. : " + academicDegreeRank.getToastMessageText());
         } else {
-            System.out.println("Thông báo không hiển thị.");
+            System.out.println("Thêm thất bại.");
         }
     }
 
     @Test(priority = 3)
     public void testUpdateAcademicTitle() {
         loginTest();
-
+        academicDegreeRank.navigateToAcademicDegreeRankTab();
         academicDegreeRank.navigateToAcademicDegreeRank();
-        academicDegreeRank.searchAcademicTitle("00122");
-        academicDegreeRank.clickUpdateAcademicTitleButton();
+        academicDegreeRank.clickaddAcademicTitle();
+        // academicDegreeRank.deleteAcademicTitle("012");
+        // academicDegreeRank.clickUpdateAcademicTitleButton();
         academicDegreeRank.updateAcademicTitleName("CSfdDT");
         academicDegreeRank.clickSaveButton();
 
         if (academicDegreeRank.isSuccessPopupDisplayed()) {
-            System.out.println("Thông báo hiển thị: " + academicDegreeRank.getToastMessageText());
+            System.out.println("Cập nhật thành công : " + academicDegreeRank.getToastMessageText());
         } else {
-            System.out.println("Thông báo không hiển thị.");
+            System.out.println("Cập nhật không thành công.");
         }
     }
 
     @Test(priority = 4)
     public void testDeleteAcademicTitle() {
         loginTest();
+        academicDegreeRank.navigateToAcademicDegreeRankTab();
         academicDegreeRank.navigateToAcademicTitle();
-        academicDegreeRank.searchAcademicTitle("00122");
-        academicDegreeRank.clickDeleteAcademicTitleButton();
-        academicDegreeRank.confirmDelete();
+        academicDegreeRank.deleteAcademicTitle("0112");
+        // academicDegreeRank.clickDeleteAcademicTitleButton();
+        // academicDegreeRank.confirmDelete();
 
         if (academicDegreeRank.isSuccessPopupDisplayed()) {
-            System.out.println("Thông báo hiển thị: " + academicDegreeRank.getToastMessageText());
+            System.out.println("Xóa thành công. : " + academicDegreeRank.getToastMessageText());
         } else {
-            System.out.println("Thông báo không hiển thị.");
+            System.out.println("Xóa không thành công.");
         }
     }
 
