@@ -109,6 +109,11 @@ public class ApiClient {
         });
     }
 
+    public List<Term> getTermData() throws IOException, InterruptedException {
+        return callApi("/Phancong02/Term/GetData", new TypeToken<List<Term>>() {
+        });
+    }
+
     // Định nghĩa lớp AcademicDegree
     public static class AcademicDegree {
         private String id;
@@ -171,24 +176,87 @@ public class ApiClient {
         }
     }
 
-    // Hàm main để thử nghiệm
-    public static void main(String[] args) {
-        try {
-            ApiClient client = new ApiClient();
+    // Định nghĩa lớp Term (Học kỳ)
+    public static class Term {
+        private String id;
+        private int start_year;
+        private int end_year;
+        private int max_class;
+        private int max_lesson;
+        private String start_date;
+        private int start_week;
+        private boolean status;
 
-            // Gọi API lấy danh sách học vị
-            List<AcademicDegree> degrees = client.getAcademicDegreeData();
-            System.out.println("\n📌 Danh sách học vị:");
-            degrees.forEach(System.out::println);
+        public String getId() {
+            return id;
+        }
 
-            // // Gọi API lấy danh sách giảng viên
-            // List<Lecturer> lecturers = client.getLecturerData();
-            // System.out.println("\n📌 Danh sách giảng viên:");
-            // lecturers.forEach(System.out::println);
+        public int getStartYear() {
+            return start_year;
+        }
 
-        } catch (Exception e) {
-            System.err.println("❌ Lỗi khi gọi API: " + e.getMessage());
-            e.printStackTrace();
+        public int getEndYear() {
+            return end_year;
+        }
+
+        public int getMaxClass() {
+            return max_class;
+        }
+
+        public int getMaxLesson() {
+            return max_lesson;
+        }
+
+        public String getStartDate() {
+            return start_date;
+        }
+
+        public int getStartWeek() {
+            return start_week;
+        }
+
+        public boolean isStatus() {
+            return status;
+        }
+
+        @Override
+        public String toString() {
+            return "{" +
+                    "id=" + id +
+                    ", startYear=" + start_year +
+                    ", endYear=" + end_year +
+                    ", maxClass=" + max_class +
+                    ", maxLesson=" + max_lesson +
+                    ", startDate='" + start_date + '\'' +
+                    ", startWeek=" + start_week +
+                    ", status=" + status +
+                    '}';
         }
     }
+
+    // Hàm main để thử nghiệm
+    // public static void main(String[] args) {
+    //     try {
+    //         ApiClient client = new ApiClient();
+
+    //         // // Gọi API lấy danh sách học vị
+    //         List<AcademicDegree> degrees = client.getAcademicDegreeData();
+    //         System.out.println("\n📌 Danh sách học vị:");
+    //         degrees.forEach(System.out::println);
+
+    //         // // Gọi API lấy danh sách giảng viên
+    //         List<Lecturer> lecturers = client.getLecturerData();
+    //         System.out.println("\n📌 Danh sách giảng viên:");
+    //         lecturers.forEach(System.out::println);
+
+    //         // Gọi API lấy danh sách học kỳ
+    //         List<Term> terms = client.getTermData();
+    //         System.out.println("\n📌 Danh sách học kỳ:");
+    //         terms.forEach(System.out::println);
+
+    //     } catch (Exception e) {
+    //         System.err.println("❌ Lỗi khi gọi API: " + e.getMessage());
+    //         e.printStackTrace();
+    //     }
+    // }
 }

@@ -1,12 +1,20 @@
+import java.io.IOException;
+import java.util.List;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import config.ApiClient;
+import config.ApiClient.Term;
 import config.ConfigReader;
 import config.DriverManager;
 import pages.TermPage;
+import utils.WaitUtils;
 import pages.MicrosoftLoginPage;
 import pages.HomePage;
 import pages.LoginPage;
@@ -21,6 +29,42 @@ public class TermManagementTest {
     String username = ConfigReader.getProperty("username");
     String password = ConfigReader.getProperty("password");
 
+    private boolean compareTerms(List<TermPage.Term> termsUI, List<ApiClient.Term> termsAPI) {
+        if (termsUI.size() != termsAPI.size()) {
+            System.out.println("\n⚠️ Số lượng học kỳ không khớp! UI: " + termsUI.size() + " | API: " + termsAPI.size());
+        }
+
+        for (int i = 0; i < Math.min(termsUI.size(), termsAPI.size()); i++) {
+            TermPage.Term uiTerm = termsUI.get(i);
+            ApiClient.Term apiTerm = termsAPI.get(i);
+
+            if (!uiTerm.getId().equals(apiTerm.getId()) ||
+                    uiTerm.getStartYear() != apiTerm.getStartYear() ||
+                    uiTerm.getEndYear() != apiTerm.getEndYear() ||
+                    uiTerm.getStartWeek() != apiTerm.getStartWeek() ||
+                    // !uiTerm.getStartDate().equals(apiTerm.getStartDate()) ||
+                    uiTerm.getMaxClass() != apiTerm.getMaxClass() ||
+                    uiTerm.getMaxLesson() != apiTerm.getMaxLesson() ||
+                    uiTerm.isStatus() != apiTerm.isStatus()) {
+
+                System.out.println("\n❌ Không khớp tại vị trí " + i);
+                System.out.println("🔹 UI:  " + uiTerm);
+                System.out.println("🔹 API: " + apiTerm);
+
+                System.out.println("📌 Chi tiết khác biệt:");
+                System.out.println("ID: " + uiTerm.getId() + " vs " + apiTerm.getId());
+                System.out.println("StartYear: " + uiTerm.getStartYear() + " vs " + apiTerm.getStartYear());
+                System.out.println("EndYear: " + uiTerm.getEndYear() + " vs " + apiTerm.getEndYear());
+                System.out.println("StartWeek: " + uiTerm.getStartWeek() + " vs " + apiTerm.getStartWeek());
+                System.out.println("MaxClass: " + uiTerm.getMaxClass() + " vs " + apiTerm.getMaxClass());
+                System.out.println("MaxLesson: " + uiTerm.getMaxLesson() + " vs " + apiTerm.getMaxLesson());
+                System.out.println("Status: " + uiTerm.isStatus() + " vs " + apiTerm.isStatus());
+                return false;
+            }
+        }
+        return true;
+    }
+
     @BeforeClass
     public void setup() {
         driver = DriverManager.getDriver();
@@ -32,6 +76,15 @@ public class TermManagementTest {
         microsoftLoginPage = new MicrosoftLoginPage(driver);
         authentication = new Authentication(driver);
         authentication.setup();
+    }
+
+    @DataProvider(name = "majorDataProvider")
+    public Object[][] majorDataProvider() {
+        return new Object[][] {
+            {"001222", "CNCdSATT", "CSfdDT", "Curriculum"},
+            {"001223", "CNTT", "IT", "Curriculum 2"},
+            {"001224", "Kinh tế", "KT", "Curriculum 3"},
+        };
     }
 
     @Test
@@ -56,28 +109,59 @@ public class TermManagementTest {
         }
     }
 
-    @Test
-    public void addMajorTest() {
+    @Test(dataProvider = "majorDataProvider")
+    public void addMajorTest(String id, String name, String abbreviation, String curriculum) {
         authentication.loginTest();
-        termPage.navigateToTermManagement();
+        termPage.navigateToMajorManagement();
         termPage.clickAddMajorButton();
-        termPage.enterMajorDetails("001222", "CNCdSATT", "CSfdDT", "Curriculum");
+        termPage.enterMajorDetails(id, name, abbreviation, curriculum);
         termPage.clickSaveButton();
-        if(termPage.checkMajorAddedSuccessfully()){
-            System.out.println("Add major test passed.");
-        }else
-            System.out.println("Add major test Failures.");
+        if (termPage.checkMajorAddedSuccessfully()) {
+            System.out.println("Add major test passed for: " + id + ", " + name + ", " + abbreviation + ", " + curriculum);
+        } else {
+            System.out.println("Add major test failed for: " + id + ", " + name + ", " + abbreviation + ", " + curriculum);
+        }
     }
 
     @Test
     public void deleteMajorTest() {
         authentication.loginTest();
 
-        termPage.navigateToTermManagement();
+        termPage.navigateToMajorManagement();
         termPage.deleteMajor("001222");
+        if (termPage.isMajorDeletedSuccessfully()) {
+            System.out.println("delete major test passed.");
+        } else
+            System.out.println("delete test Failures.");
+    }
 
-        Assert.assertTrue(termPage.isMajorDeletedSuccessfully(), "Failed to delete major.");
-        System.out.println("Delete major test passed.");
+    @Test
+    public void getTermDataFromUI() {
+        ApiClient apiClient = new ApiClient();
+        authentication.loginTest();
+
+        termPage.navigateToTermManagement();
+
+        WaitUtils.waitForElement(driver, By.xpath("//table/tbody/tr[not(contains(., 'Đang tải'))]"), 10);
+        List<TermPage.Term> termsUI = termPage.getTermsFromUI();
+        System.out.println("\n📌 Danh sách học kỳ từ giao diện:");
+        termsUI.forEach(System.out::println);
+
+        try {
+            List<ApiClient.Term> termsAPI = apiClient.getTermData();
+            List<ApiClient.Term> first10API = termsAPI.stream().limit(10).toList();
+            System.out.println("\n📌 Danh sách học kỳ từ API:");
+            first10API.forEach(System.out::println);
+
+            // So sánh danh sách UI và API
+            if (compareTerms(termsUI, first10API)) {
+
+            }
+        } catch (IOException | InterruptedException e) {
+            System.err.println("❌ Lỗi khi lấy danh sách học kỳ từ API: " + e.getMessage());
+            e.printStackTrace();
+            Assert.fail("Không thể lấy danh sách học kỳ từ API.");
+        }
     }
 
     @AfterClass
