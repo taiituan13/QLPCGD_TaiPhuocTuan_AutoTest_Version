@@ -152,7 +152,7 @@ public class TermPage {
     public boolean checkMajorAddedSuccessfully() {
         try {
             WebElement successPopup = WaitUtils.waitForElement(driver,
-                    By.xpath("//div[@id='toast-container']//div[contains(@class, 'toast-message')]"), 10);
+                    By.xpath("//div[@id='toast-container']//div[contains(@class, 'toast-message')]"), 3);
             return successPopup.isDisplayed();
         } catch (Exception e) {
             // Tìm element thông báo và lấy text của nó

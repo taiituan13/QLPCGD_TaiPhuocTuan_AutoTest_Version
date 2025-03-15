@@ -3,6 +3,7 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -81,9 +82,14 @@ public class TermManagementTest {
     @DataProvider(name = "majorDataProvider")
     public Object[][] majorDataProvider() {
         return new Object[][] {
-            {"001222", "CNCdSATT", "CSfdDT", "Curriculum"},
-            {"001223", "CNTT", "IT", "Curriculum 2"},
-            {"001224", "Kinh tế", "KT", "Curriculum 3"},
+                { "001222", "CNCdSATT", "CSfdDT", "Curriculum" },
+                { "001223", "CNTT", "IT", "Curriculum 2" },
+                { "001224", "Kinh tế", "KT", "Curriculum 3" },
+                // Thêm các bộ dữ liệu không hợp lệ
+                { "", "CNCdSATT", "CSfdDT", "Curriculum" }, // ID trống
+                { "001225", "", "CSfdDT", "Curriculum" }, // Tên trống
+                { "001226", "CNTT", "", "Curriculum" }, // Viết tắt trống
+                { "001227", "Kinh tế", "KT", "" }, // Curriculum trống
         };
     }
 
@@ -116,11 +122,26 @@ public class TermManagementTest {
         termPage.clickAddMajorButton();
         termPage.enterMajorDetails(id, name, abbreviation, curriculum);
         termPage.clickSaveButton();
-        if (termPage.checkMajorAddedSuccessfully()) {
-            System.out.println("Add major test passed for: " + id + ", " + name + ", " + abbreviation + ", " + curriculum);
+        // Kiểm tra xem có bất kỳ phần tử nào có class "error"
+        List<WebElement> errorElements = driver.findElements(By.className("error"));
+        if (!errorElements.isEmpty()) {
+            System.out.println(
+                    "Add major test failed for: " + id + ", " + name + ", " + abbreviation + ", " + curriculum);
+            // In ra các lỗi
+            for (WebElement errorElement : errorElements) {
+                System.out.println("Error: " + errorElement.getText());
+            }
         } else {
-            System.out.println("Add major test failed for: " + id + ", " + name + ", " + abbreviation + ", " + curriculum);
+            // Nếu không có lỗi, tiếp tục kiểm tra checkMajorAddedSuccessfully
+            if (termPage.checkMajorAddedSuccessfully()) {
+                System.out.println(
+                        "Add major test passed for: " + id + ", " + name + ", " + abbreviation + ", " + curriculum);
+            } else {
+                System.out.println(
+                        "Add major test failed for: " + id + ", " + name + ", " + abbreviation + ", " + curriculum);
+            }
         }
+        System.out.println("========================================");
     }
 
     @Test
