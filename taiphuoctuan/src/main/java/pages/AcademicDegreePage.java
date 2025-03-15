@@ -116,10 +116,10 @@ public class AcademicDegreePage {
             return successPopup.isDisplayed();
         } catch (Exception e) {
             // Tìm element thông báo và lấy text của nó
-            // WebElement failedPopup = WaitUtils.waitForElement(driver,
-            //         By.xpath("//div[contains(@class,'swal2-html-container')]"), 0);
-            // String alertText = failedPopup.getText();
-            // System.out.println("Alert Text: " + alertText);
+            WebElement failedPopup = WaitUtils.waitForElement(driver,
+                    By.xpath("//div[contains(@class,'swal2-html-container')]"), 0);
+            String alertText = failedPopup.getText();
+            System.out.println("Alert Text: " + alertText);
             return false;
         }
     }

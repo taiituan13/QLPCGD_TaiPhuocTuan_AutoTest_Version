@@ -1,7 +1,12 @@
+import java.util.List;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import config.ConfigReader;
@@ -52,20 +57,39 @@ public class AcademicDegreeManagementTest {
         }
     }
 
-    @Test(priority = 2)
-    public void testCreateAcademicDegreeRank() {
+    @DataProvider(name = "AcademicDegreeRankProvider")
+    public Object[][] AcademicDegreeRankProvider() {
+        return new Object[][] {
+                // { "001222", "Curriculum" },
+                // { "001223", "CNTT" },
+                { "001223", "" },
+                { "", "hdhdhd"}
+        };
+    }
+
+    @Test(dataProvider = "AcademicDegreeRankProvider")
+    public void testCreateAcademicDegreeRank(String id, String name) {
         loginTest();
         academicDegreeRank.navigateToAcademicDegreeRankTab();
         academicDegreeRank.navigateToAcademicDegreeRank();
         academicDegreeRank.clickCreateAcademicDegreeRank();
-        academicDegreeRank.enterAcademicDegreeRankDetails("00122", "CNCdSATT");
+        academicDegreeRank.enterAcademicDegreeRankDetails(id, name);
         academicDegreeRank.clickSaveButton();
+        List<WebElement> errorElements = driver.findElements(By.className("error"));
 
-        if (academicDegreeRank.isSuccessPopupDisplayed()) {
-            System.out.println("Thêm thành công. : " + academicDegreeRank.getToastMessageText());
+        if (errorElements.isEmpty()) {
+            if (academicDegreeRank.isSuccessPopupDisplayed()) {
+                System.out.println("Thêm thành công. : " + academicDegreeRank.getToastMessageText());
+            } else {
+                System.out.println("Thêm thất bại.");
+            }
+
         } else {
-            System.out.println("Thêm thất bại.");
+            for (WebElement errorElement : errorElements) {
+                System.out.println("error: " + errorElement.getText());
+            }
         }
+        System.out.println("========================================");
     }
 
     @Test(priority = 3)

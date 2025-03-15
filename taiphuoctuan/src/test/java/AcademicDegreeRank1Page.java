@@ -72,7 +72,7 @@ public class AcademicDegreeRank1Page {
         loginTest();
 
         academicDegreeRank.navigateToAcademicDegreeRank();
-        academicDegreeRank.searchAcademicTitle("00122");
+        // academicDegreeRank.searchAcademicTitle("00122");
         academicDegreeRank.clickUpdateAcademicTitleButton();
         academicDegreeRank.updateAcademicTitleName("CSfdDT");
         academicDegreeRank.clickSaveButton();
@@ -88,7 +88,7 @@ public class AcademicDegreeRank1Page {
     public void testDeleteAcademicTitle() {
         loginTest();
         academicDegreeRank.navigateToAcademicTitle();
-        academicDegreeRank.searchAcademicTitle("00122");
+        // academicDegreeRank.searchAcademicTitle("00122");
         academicDegreeRank.clickDeleteAcademicTitleButton();
         academicDegreeRank.confirmDelete();
 
