@@ -9,7 +9,7 @@ public class AcademicDegreePage {
     private WebDriver driver;
 
     private By academictitleLink = By.xpath("/html/body/div[2]/div[1]/div[2]/ul/li[6]/ul/li[1]/a");
-    private By academictitleTab = By.linkText("Thù lao") ;
+    private By academictitleTab = By.linkText("Thù lao") ;  
     private By createAcademictitleButton = By.xpath("/html/body/div[2]/div[2]/div[3]/div/section/div/div/div/div[2]/div/div/div[1]/div[2]/div/div[2]/button/span");
     private By academictitleIdField = By.xpath("/html/body/div[3]/div[2]/form/div[1]/input");
     private By academictitleNameField = By.xpath("/html/body/div[3]/div[2]/form/div[2]/input");
