@@ -21,7 +21,7 @@ public class AcademicDegreeManagementTest {
     private HomePage homePage;
     private LoginPage loginPage;
     private MicrosoftLoginPage microsoftLoginPage;
-    private AcademicDegreePage academicDegreeRank;
+    private AcademicDegreePage AcademicDegreePage;
     String username = ConfigReader.getProperty("username");
     String password = ConfigReader.getProperty("password");
 
@@ -33,7 +33,7 @@ public class AcademicDegreeManagementTest {
         homePage = new HomePage(driver);
         loginPage = new LoginPage(driver);
         microsoftLoginPage = new MicrosoftLoginPage(driver);
-        academicDegreeRank = new AcademicDegreePage(driver);
+        AcademicDegreePage = new AcademicDegreePage(driver);
     }
 
     @Test(priority = 1)
@@ -61,25 +61,25 @@ public class AcademicDegreeManagementTest {
     public Object[][] AcademicDegreeRankProvider() {
         return new Object[][] {
                 // { "001222", "Curriculum" },
-                // { "001223", "CNTT" },
-                { "001223", "" },
-                { "", "hdhdhd"}
+                { "0012444", "CNTT" },
+                { "0012", "" },
+                { "", "hdhdhd" }
         };
     }
-
+    // Kiểm thử tạo học hàm, học vị. 
     @Test(dataProvider = "AcademicDegreeRankProvider")
     public void testCreateAcademicDegreeRank(String id, String name) {
         loginTest();
-        academicDegreeRank.navigateToAcademicDegreeRankTab();
-        academicDegreeRank.navigateToAcademicDegreeRank();
-        academicDegreeRank.clickCreateAcademicDegreeRank();
-        academicDegreeRank.enterAcademicDegreeRankDetails(id, name);
-        academicDegreeRank.clickSaveButton();
+        AcademicDegreePage.navigateToAcademicDegreeRankTab();
+        AcademicDegreePage.navigateToAcademicDegreeRank();
+        AcademicDegreePage.clickCreateAcademicDegreeRank();
+        AcademicDegreePage.enterAcademicDegreeRankDetails(id, name);
+        AcademicDegreePage.clickSaveButton();
         List<WebElement> errorElements = driver.findElements(By.className("error"));
 
         if (errorElements.isEmpty()) {
-            if (academicDegreeRank.isSuccessPopupDisplayed()) {
-                System.out.println("Thêm thành công. : " + academicDegreeRank.getToastMessageText());
+            if (AcademicDegreePage.isSuccessPopupDisplayed()) {
+                System.out.println("Thêm thành công. : " + AcademicDegreePage.getToastMessageText());
             } else {
                 System.out.println("Thêm thất bại.");
             }
@@ -91,37 +91,56 @@ public class AcademicDegreeManagementTest {
         }
         System.out.println("========================================");
     }
-
-    @Test(priority = 3)
-    public void testUpdateAcademicTitle() {
+    // Kiểm thử cập nhật học hàm, học vị. 
+    @Test(dataProvider = "AcademicDegreeRankProvider")
+    public void testUpdateAcademicTitle(String id, String name) {
         loginTest();
-        academicDegreeRank.navigateToAcademicDegreeRankTab();
-        academicDegreeRank.navigateToAcademicDegreeRank();
-        academicDegreeRank.clickaddAcademicTitle();
+        AcademicDegreePage.navigateToAcademicDegreeRankTab();
+        AcademicDegreePage.navigateToAcademicDegreeRank();
+        AcademicDegreePage.clickaddAcademicTitle();
         // academicDegreeRank.deleteAcademicTitle("012");
         // academicDegreeRank.clickUpdateAcademicTitleButton();
-        academicDegreeRank.updateAcademicTitleName("CSfdDT");
-        academicDegreeRank.clickSaveButton();
-        if (academicDegreeRank.isSuccessPopupDisplayed()) {
-            System.out.println("Cập nhật thành công : " + academicDegreeRank.getToastMessageText());
-        } else {
-            System.out.println("Cập nhật không thành công.");
-        }
-    }
+        AcademicDegreePage.updateAcademicTitleName(id);
+        AcademicDegreePage.clickSaveButton();
+        List<WebElement> errorElements = driver.findElements(By.className("error"));
+        if (errorElements.isEmpty()) {
+            if (AcademicDegreePage.isSuccessPopupDisplayed()) {
+                System.out.println(" thành công. : " + AcademicDegreePage.getToastMessageText());
+            } else {
+                System.out.println("Thêm thất bại.");
+            }
 
-    @Test(priority = 4)
-    public void testDeleteAcademicTitle() {
-        loginTest();
-        academicDegreeRank.navigateToAcademicDegreeRankTab();
-        academicDegreeRank.navigateToAcademicTitle();
-        academicDegreeRank.deleteAcademicTitle("0112");
-        // academicDegreeRank.clickDeleteAcademicTitleButton();
-        // academicDegreeRank.confirmDelete();
-        if (academicDegreeRank.isSuccessPopupDisplayed()) {
-            System.out.println("Xóa thành công. : " + academicDegreeRank.getToastMessageText());
         } else {
-            System.out.println("Xóa không thành công.");
+            for (WebElement errorElement : errorElements) {
+                System.out.println("error: " + errorElement.getText());
+            }
         }
+        System.out.println("========================================");
+    }
+    // Kiểm thử xóa học hàm, học vị. 
+    @Test(dataProvider = "AcademicDegreeRankProvider")
+    public void testDeleteAcademicTitle(String id, String name) {
+        loginTest();
+        AcademicDegreePage.navigateToAcademicDegreeRankTab();
+        AcademicDegreePage.navigateToAcademicTitle();
+        AcademicDegreePage.clickDeleteAcademicTitleButton();
+        AcademicDegreePage.deleteAcademicTitle(id);
+        AcademicDegreePage.confirmDelete();
+        List<WebElement> errorElements = driver.findElements(By.className("error"));
+
+        if (errorElements.isEmpty()) {
+            if (AcademicDegreePage.isSuccessPopupDisplayed()) {
+                System.out.println(" thành công. : " + AcademicDegreePage.getToastMessageText());
+            } else {
+                System.out.println("Thêm thất bại.");
+            }
+
+        } else {
+            for (WebElement errorElement : errorElements) {
+                System.out.println("error: " + errorElement.getText());
+            }
+        }
+        System.out.println("========================================");
     }
 
     @AfterClass

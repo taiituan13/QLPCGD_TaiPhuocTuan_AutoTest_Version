@@ -75,7 +75,7 @@ public class HomePage {
                             .isSecure(isSecure)
                             .build();
                     driver.manage().addCookie(cookie);
-                    System.out.println(cookie);
+                    // System.out.println(cookie);
                     return true;
                 }
             }

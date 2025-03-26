@@ -145,13 +145,14 @@ public class AcademicDegreePage {
         if (firstRow != null) {
             WebElement deleteMajorButton = firstRow.findElement(By.xpath(".//td[6]/a[2]/i"));
             deleteMajorButton.click();
-
+            
             WebElement confirmDeleteButton = WaitUtils.waitForElement(driver,
                     By.xpath("/html/body/div[3]/div/div[6]/button[1]"), 10);
             confirmDeleteButton.click();
         } else {
             System.out.println("Học hàm không tìm thấy, không thể xóa.");
         }
+
     }
 
     public boolean isMajorDeletedSuccessfully() {
