@@ -3,12 +3,10 @@ package pages;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.WaitUtils;
+
 public class PrinceCoefficientPage {
     private WebDriver driver;
-    private WebDriverWait wait;
 
     private By thuTab = By.xpath("/html/body/div[2]/div[1]/div[2]/ul/li[6]/a/span");
     private By donGiaHeSoTab = By.xpath("/html/body/div[2]/div[1]/div[2]/ul/li[6]/ul/li[2]/a/span");
@@ -18,28 +16,27 @@ public class PrinceCoefficientPage {
 
     public PrinceCoefficientPage(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, 10);
     }
 
     public void clickThuTab() {
-        wait.until(ExpectedConditions.elementToBeClickable(thuTab)).click();
+        WaitUtils.waitForElement(driver, thuTab, 10).click();
     }
 
     public void clickDonGiaHeSoTab() {
-        wait.until(ExpectedConditions.elementToBeClickable(donGiaHeSoTab)).click();
+        WaitUtils.waitForElement(driver, donGiaHeSoTab, 10).click();
     }
 
     public void clickChinhButton() {
-        wait.until(ExpectedConditions.elementToBeClickable(chinhButton)).click();
+        WaitUtils.waitForElement(driver, chinhButton, 10).click();
     }
 
     public void enterDonGia(String donGia) {
-        WebElement input = wait.until(ExpectedConditions.visibilityOfElementLocated(donGiaInput));
+        WebElement input = WaitUtils.waitForElement(driver, donGiaInput, 10);
         input.clear();
         input.sendKeys(donGia);
     }
 
     public void clickSaveButton() {
-        wait.until(ExpectedConditions.elementToBeClickable(saveButton)).click();
+        WaitUtils.waitForElement(driver, saveButton, 10).click();
     }
 }
