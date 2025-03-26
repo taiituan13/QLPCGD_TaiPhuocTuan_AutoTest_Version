@@ -27,10 +27,7 @@ public class CookieFileUtil {
                         String name = parts[0];
                         String value = parts[1];
                         cookieValue.append(name).append("=").append(value);
-
                     }
-                    
-
                 }
             }
         } catch (IOException e) {

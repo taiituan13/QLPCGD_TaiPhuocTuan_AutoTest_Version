@@ -11,7 +11,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import config.ApiClient;
-import config.ApiClient.Term;
+import config.ApiService;
 import config.ConfigReader;
 import config.DriverManager;
 import pages.TermPage;
@@ -20,6 +20,7 @@ import utils.WaitUtils;
 import pages.MicrosoftLoginPage;
 import pages.HomePage;
 import pages.LoginPage;
+import models.Term; 
 
 public class TermManagementTest {
     private WebDriver driver;
@@ -36,20 +37,20 @@ public class TermManagementTest {
     String username = ConfigReader.getProperty("username");
     String password = ConfigReader.getProperty("password");
 
-    private boolean compareTerms(List<TermPage.Term> termsUI, List<ApiClient.Term> termsAPI) {
+    private boolean compareTerms(List<TermPage.Term> termsUI, List<Term> termsAPI) {
         if (termsUI.size() != termsAPI.size()) {
             System.out.println("\n⚠️ Số lượng học kỳ không khớp! UI: " + termsUI.size() + " | API: " + termsAPI.size());
         }
 
         for (int i = 0; i < Math.min(termsUI.size(), termsAPI.size()); i++) {
             TermPage.Term uiTerm = termsUI.get(i);
-            ApiClient.Term apiTerm = termsAPI.get(i);
+            Term apiTerm = termsAPI.get(i);
 
             if (!uiTerm.getId().equals(apiTerm.getId()) ||
                     uiTerm.getStartYear() != apiTerm.getStartYear() ||
                     uiTerm.getEndYear() != apiTerm.getEndYear() ||
                     uiTerm.getStartWeek() != apiTerm.getStartWeek() ||
-                    // !uiTerm.getStartDate().equals(apiTerm.getStartDate()) ||
+                    !uiTerm.getStartDate().equals(apiTerm.getStartDate()) ||
                     uiTerm.getMaxClass() != apiTerm.getMaxClass() ||
                     uiTerm.getMaxLesson() != apiTerm.getMaxLesson() ||
                     uiTerm.isStatus() != apiTerm.isStatus()) {
@@ -61,6 +62,7 @@ public class TermManagementTest {
                 System.out.println("📌 Chi tiết khác biệt:");
                 System.out.println("ID: " + uiTerm.getId() + " vs " + apiTerm.getId());
                 System.out.println("StartYear: " + uiTerm.getStartYear() + " vs " + apiTerm.getStartYear());
+                System.out.println("StartDate: " + uiTerm.getStartDate() + " vs " + apiTerm.getStartDate());
                 System.out.println("EndYear: " + uiTerm.getEndYear() + " vs " + apiTerm.getEndYear());
                 System.out.println("StartWeek: " + uiTerm.getStartWeek() + " vs " + apiTerm.getStartWeek());
                 System.out.println("MaxClass: " + uiTerm.getMaxClass() + " vs " + apiTerm.getMaxClass());
@@ -112,7 +114,7 @@ public class TermManagementTest {
     @DataProvider(name = "majorDataProviderExcel")
     public Object[][] majorDataProviderExcel() {
         Object[][] data = ExcelUtils.getExcelData(
-                "/home/tuantai/Desktop/IT/courses/QLPCGD_TaiPhuocTuan_AutoTest/taiphuoctuan/src/resources/Test.xlsx",
+                "/home/tuantai/Desktop/IT/courses/QLPCGD_TaiPhuocTuan_AutoTest_Version/taiphuoctuan/src/main/resources/Test.xlsx",
                 "TestData");
         System.out.println("📌 Dữ liệu từ Excel:");
         for (Object[] row : data) {
@@ -249,8 +251,8 @@ public class TermManagementTest {
     }
 
     @Test
-    public void getTermDataFromUI() {
-        ApiClient apiClient = new ApiClient();
+    public void compareDataFromUiAndApi() {
+        ApiService ApiService = new ApiService();
         authentication.loginTest();
 
         termPage.navigateToTermManagement();
@@ -261,15 +263,11 @@ public class TermManagementTest {
         termsUI.forEach(System.out::println);
 
         try {
-            List<ApiClient.Term> termsAPI = apiClient.getTermData();
-            List<ApiClient.Term> first10API = termsAPI.stream().limit(10).toList();
+            List<Term> termsAPI = ApiService.getTermData();
+            List<Term> first10API = termsAPI.stream().limit(10).toList();
             System.out.println("\n📌 Danh sách học kỳ từ API:");
             first10API.forEach(System.out::println);
-
-            // So sánh danh sách UI và API
-            if (compareTerms(termsUI, first10API)) {
-
-            }
+            compareTerms(termsUI, first10API);
         } catch (IOException | InterruptedException e) {
             System.err.println("❌ Lỗi khi lấy danh sách học kỳ từ API: " + e.getMessage());
             e.printStackTrace();

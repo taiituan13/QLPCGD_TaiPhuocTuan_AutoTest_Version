@@ -120,9 +120,10 @@ public class AcademicDegreePage {
                     By.xpath("//div[contains(@class,'swal2-html-container')]"), 0);
             String alertText = failedPopup.getText();
             System.out.println("Alert Text: " + alertText);
-            return false;
+            return false;   
         }
     }
+
                                          
     public String getToastMessageText() {
         try {

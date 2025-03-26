@@ -60,13 +60,14 @@ public class AcademicDegreeManagementTest {
     @DataProvider(name = "AcademicDegreeRankProvider")
     public Object[][] AcademicDegreeRankProvider() {
         return new Object[][] {
-                // { "001222", "Curriculum" },
+                { "001222", "Curriculum" },
                 { "0012444", "CNTT" },
                 { "0012", "" },
                 { "", "hdhdhd" }
         };
     }
-    // Kiểm thử tạo học hàm, học vị. 
+
+    // Kiểm thử tạo học hàm, học vị.
     @Test(dataProvider = "AcademicDegreeRankProvider")
     public void testCreateAcademicDegreeRank(String id, String name) {
         loginTest();
@@ -91,7 +92,8 @@ public class AcademicDegreeManagementTest {
         }
         System.out.println("========================================");
     }
-    // Kiểm thử cập nhật học hàm, học vị. 
+
+    // Kiểm thử cập nhật học hàm, học vị.
     @Test(dataProvider = "AcademicDegreeRankProvider")
     public void testUpdateAcademicTitle(String id, String name) {
         loginTest();
@@ -117,29 +119,32 @@ public class AcademicDegreeManagementTest {
         }
         System.out.println("========================================");
     }
-    // Kiểm thử xóa học hàm, học vị. 
+
+    // Kiểm thử xóa học hàm, học vị.
     @Test(dataProvider = "AcademicDegreeRankProvider")
     public void testDeleteAcademicTitle(String id, String name) {
         loginTest();
         AcademicDegreePage.navigateToAcademicDegreeRankTab();
         AcademicDegreePage.navigateToAcademicTitle();
-        AcademicDegreePage.clickDeleteAcademicTitleButton();
         AcademicDegreePage.deleteAcademicTitle(id);
-        AcademicDegreePage.confirmDelete();
-        List<WebElement> errorElements = driver.findElements(By.className("error"));
+        if (AcademicDegreePage.searchAcademictitle(id) != null) {
+            AcademicDegreePage.clickDeleteAcademicTitleButton();
+            AcademicDegreePage.confirmDelete();
+            List<WebElement> errorElements = driver.findElements(By.className("error"));
+            if (errorElements.isEmpty()) {
+                if (AcademicDegreePage.isSuccessPopupDisplayed()) {
+                    System.out.println(" thành công. : " + AcademicDegreePage.getToastMessageText());
+                } else {
+                    System.out.println("Thêm thất bại.");
+                }
 
-        if (errorElements.isEmpty()) {
-            if (AcademicDegreePage.isSuccessPopupDisplayed()) {
-                System.out.println(" thành công. : " + AcademicDegreePage.getToastMessageText());
             } else {
-                System.out.println("Thêm thất bại.");
-            }
-
-        } else {
-            for (WebElement errorElement : errorElements) {
-                System.out.println("error: " + errorElement.getText());
+                for (WebElement errorElement : errorElements) {
+                    System.out.println("error: " + errorElement.getText());
+                }
             }
         }
+
         System.out.println("========================================");
     }
 
