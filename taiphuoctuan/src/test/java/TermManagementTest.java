@@ -15,6 +15,7 @@ import config.ApiClient.Term;
 import config.ConfigReader;
 import config.DriverManager;
 import pages.TermPage;
+import utils.ExcelUtils;
 import utils.WaitUtils;
 import pages.MicrosoftLoginPage;
 import pages.HomePage;
@@ -93,6 +94,18 @@ public class TermManagementTest {
         };
     }
 
+    @DataProvider(name = "majorDataProviderExcel")
+    public Object[][] majorDataProviderExcel() {
+        Object[][] data = ExcelUtils.getExcelData(
+                "/home/tuantai/Desktop/IT/courses/QLPCGD_TaiPhuocTuan_AutoTest/taiphuoctuan/src/resources/Test.xlsx",
+                "TestData");
+        System.out.println("📌 Dữ liệu từ Excel:");
+        for (Object[] row : data) {
+            System.out.println(java.util.Arrays.toString(row));
+        }
+        return data;
+    }
+
     @Test
     public void loginTest() {
         homePage.loadCookies();
@@ -115,7 +128,7 @@ public class TermManagementTest {
         }
     }
 
-    @Test(dataProvider = "majorDataProvider")
+    @Test(dataProvider = "majorDataProviderExcel")
     public void addMajorTest(String id, String name, String abbreviation, String curriculum) {
         authentication.loginTest();
         termPage.navigateToMajorManagement();
@@ -142,6 +155,60 @@ public class TermManagementTest {
             }
         }
         System.out.println("========================================");
+    }
+
+    public void createMajor(String id, String name, String abbreviation, String curriculum) {
+        termPage.navigateToMajorManagement();
+        termPage.clickAddMajorButton();
+        termPage.enterMajorDetails(id, name, abbreviation, curriculum);
+        termPage.clickSaveButton();
+
+        // Kiểm tra xem có bất kỳ phần tử nào có class "error"
+        List<WebElement> errorElements = driver.findElements(By.className("error"));
+        if (!errorElements.isEmpty()) {
+            System.out.println(
+                    "Add major test failed for: " + id + ", " + name + ", " + abbreviation + ", " + curriculum);
+            // In ra các lỗi
+            for (WebElement errorElement : errorElements) {
+                System.out.println("Error: " + errorElement.getText());
+            }
+        } else {
+            // Nếu không có lỗi, tiếp tục kiểm tra checkMajorAddedSuccessfully
+            if (termPage.checkMajorAddedSuccessfully()) {
+                System.out.println(
+                        "Add major test passed for: " + id + ", " + name + ", " + abbreviation + ", " + curriculum);
+            } else {
+                System.out.println(
+                        "Add major test failed for: " + id + ", " + name + ", " + abbreviation + ", " + curriculum);
+            }
+        }
+        System.out.println("========================================");
+    }
+
+    @Test
+    public void testConflictDataCreation() {
+        authentication.loginTest();
+
+        // Tạo hai luồng song song để mô phỏng hai người dùng
+        Thread user1 = new Thread(() -> {
+            createMajor("001229", "Conflict Major 1", "CM1", "Curriculum 1");
+        });
+
+        Thread user2 = new Thread(() -> {
+            createMajor("001229", "Conflict Major 2", "CM2", "Curriculum 2");
+        });
+
+        // Bắt đầu hai luồng
+        user1.start();
+        user2.start();
+
+        // Chờ cho cả hai luồng hoàn thành
+        try {
+            user1.join();
+            user2.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test

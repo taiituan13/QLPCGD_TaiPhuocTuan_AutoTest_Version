@@ -64,9 +64,9 @@ public class TimeTableManagement {
     }
 
     
-
+// 
     @AfterClass
     public void tearDown() {
-        // DriverManager.closeDriver();
+        DriverManager.closeDriver();
     }
 }
