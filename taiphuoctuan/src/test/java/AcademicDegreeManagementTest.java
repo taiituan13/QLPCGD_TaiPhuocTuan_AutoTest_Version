@@ -102,7 +102,6 @@ public class AcademicDegreeManagementTest {
         // academicDegreeRank.clickUpdateAcademicTitleButton();
         academicDegreeRank.updateAcademicTitleName("CSfdDT");
         academicDegreeRank.clickSaveButton();
-
         if (academicDegreeRank.isSuccessPopupDisplayed()) {
             System.out.println("Cập nhật thành công : " + academicDegreeRank.getToastMessageText());
         } else {
@@ -118,7 +117,6 @@ public class AcademicDegreeManagementTest {
         academicDegreeRank.deleteAcademicTitle("0112");
         // academicDegreeRank.clickDeleteAcademicTitleButton();
         // academicDegreeRank.confirmDelete();
-
         if (academicDegreeRank.isSuccessPopupDisplayed()) {
             System.out.println("Xóa thành công. : " + academicDegreeRank.getToastMessageText());
         } else {

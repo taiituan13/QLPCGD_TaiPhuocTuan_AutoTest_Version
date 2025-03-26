@@ -23,10 +23,15 @@ import pages.LoginPage;
 
 public class TermManagementTest {
     private WebDriver driver;
+    private WebDriver driver2;
     private TermPage termPage;
     private HomePage homePage;
     private LoginPage loginPage;
     private Authentication authentication;
+    private TermPage termPage2;
+    private HomePage homePage2;
+    private LoginPage loginPage2;
+    private Authentication authentication2;
     private MicrosoftLoginPage microsoftLoginPage;
     String username = ConfigReader.getProperty("username");
     String password = ConfigReader.getProperty("password");
@@ -78,6 +83,16 @@ public class TermManagementTest {
         microsoftLoginPage = new MicrosoftLoginPage(driver);
         authentication = new Authentication(driver);
         authentication.setup();
+
+        driver2 = DriverManager.getDriver();
+        driver2.manage().window().maximize();
+        driver2.get(ConfigReader.getProperty("baseUrl"));
+        termPage2 = new TermPage(driver2);
+        homePage2 = new HomePage(driver2);
+        loginPage2 = new LoginPage(driver2);
+        microsoftLoginPage = new MicrosoftLoginPage(driver2);
+        authentication2 = new Authentication(driver2);
+        authentication2.setup();
     }
 
     @DataProvider(name = "majorDataProvider")
@@ -187,22 +202,32 @@ public class TermManagementTest {
 
     @Test
     public void testConflictDataCreation() {
-        authentication.loginTest();
-
-        // Tạo hai luồng song song để mô phỏng hai người dùng
         Thread user1 = new Thread(() -> {
-            createMajor("001229", "Conflict Major 1", "CM1", "Curriculum 1");
+            authentication.loginTest();
+
+            termPage.navigateToMajorManagement();
+            termPage.clickAddMajorButton();
+            termPage.enterMajorDetails("001229", "Conflict Major 1", "CM1", "Curriculum 1");
+            termPage.clickSaveButton();
+
+            driver.quit();
+
         });
 
         Thread user2 = new Thread(() -> {
-            createMajor("001229", "Conflict Major 2", "CM2", "Curriculum 2");
+            authentication2.loginTest();
+
+            termPage2.navigateToMajorManagement();
+            termPage2.clickAddMajorButton();
+            termPage2.enterMajorDetails("001229", "Conflict Major 2", "CM2", "Curriculum 2");
+            termPage2.clickSaveButton();
+
+            driver2.quit();
         });
 
-        // Bắt đầu hai luồng
         user1.start();
         user2.start();
 
-        // Chờ cho cả hai luồng hoàn thành
         try {
             user1.join();
             user2.join();
@@ -216,7 +241,7 @@ public class TermManagementTest {
         authentication.loginTest();
 
         termPage.navigateToMajorManagement();
-        termPage.deleteMajor("001222");
+        termPage.deleteMajor("001229");
         if (termPage.isMajorDeletedSuccessfully()) {
             System.out.println("delete major test passed.");
         } else

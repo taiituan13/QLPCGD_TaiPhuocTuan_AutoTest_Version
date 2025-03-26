@@ -63,8 +63,6 @@ public class TimeTableManagement {
         timeTablePage.assignLecturer();
     }
 
-    
-// 
     @AfterClass
     public void tearDown() {
         DriverManager.closeDriver();
