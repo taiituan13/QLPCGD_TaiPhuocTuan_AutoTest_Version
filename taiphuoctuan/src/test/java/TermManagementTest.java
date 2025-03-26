@@ -81,18 +81,18 @@ public class TermManagementTest {
         homePage = new HomePage(driver);
         loginPage = new LoginPage(driver);
         microsoftLoginPage = new MicrosoftLoginPage(driver);
-        authentication = new Authentication(driver);
+        authentication = new Authentication();
         authentication.setup();
 
-        driver2 = DriverManager.getDriver();
-        driver2.manage().window().maximize();
-        driver2.get(ConfigReader.getProperty("baseUrl"));
-        termPage2 = new TermPage(driver2);
-        homePage2 = new HomePage(driver2);
-        loginPage2 = new LoginPage(driver2);
-        microsoftLoginPage = new MicrosoftLoginPage(driver2);
-        authentication2 = new Authentication(driver2);
-        authentication2.setup();
+        // driver2 = DriverManager.getDriver();
+        // driver2.manage().window().maximize();
+        // driver2.get(ConfigReader.getProperty("baseUrl"));
+        // termPage2 = new TermPage(driver2);
+        // homePage2 = new HomePage(driver2);
+        // loginPage2 = new LoginPage(driver2);
+        // microsoftLoginPage = new MicrosoftLoginPage(driver2);
+        // authentication2 = new Authentication();
+        // authentication2.setup();
     }
 
     @DataProvider(name = "majorDataProvider")

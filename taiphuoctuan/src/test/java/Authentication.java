@@ -19,9 +19,10 @@ public class Authentication {
     String username = ConfigReader.getProperty("username");
     String password = ConfigReader.getProperty("password");
 
-    public Authentication(WebDriver driver) {
-        this.driver = driver;
-    }
+    // public Authentication(WebDriver driver) {
+    //     this.driver = driver;
+    //     this.driver = DriverManager.getDriver();
+    // }
 
     @BeforeClass
     public void setup() {
@@ -53,22 +54,8 @@ public class Authentication {
         }
     }
 
-    // @Test(dependsOnMethods = {"loginTest"})
-    // public void testLogout() {
-    // // Thực hiện hành động đăng xuất
-    // homePage.userNavClick();
-    // homePage.logOutClick();
-    // driver.navigate().refresh();
-
-    // // Kiểm tra URL hiện tại để xác nhận đăng xuất thành công
-    // String currentUrl = driver.getCurrentUrl();
-    // Assert.assertTrue(currentUrl.contains("/Phancong02/Account/Login"), "Logout
-    // failed or did not redirect to login page.");
-    // System.out.println("Logout test passed. Current URL: " + currentUrl);
-    // }
-
     @AfterClass
     public void tearDown() {
-        // DriverManager.closeDriver();
+        DriverManager.closeDriver();
     }
 }
